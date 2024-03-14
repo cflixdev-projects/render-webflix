@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebFlix</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Webflix</h1>
+        <form id="searchForm" onsubmit="return search()">
+            <input id="textInput" name="textInput" placeholder="Show Name, Season, Episode">
+            <button type="submit">Search</button>
+        </form>
+        <div id="videoContainer">
+            <iframe id="videoFrame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        function search() {
+            var textInput = document.getElementById('textInput').value.trim();
+            var formData = new FormData();
+            formData.append('textInput', textInput);
+
+            fetch('/search', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('videoFrame').src = data;
+                document.getElementById('videoContainer').style.display = 'block';
+            })
+            .catch(error => console.error('Error:', error));
+
+            return false; // Prevent default form submission
+        }
+    </script>
+</body>
+</html>
