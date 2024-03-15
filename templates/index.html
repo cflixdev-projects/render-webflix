@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <title>WebFlix</title>
 </head>
@@ -20,24 +19,27 @@
     </div>
 
     <script>
+function updateIframeSrc(newLink) {
+        document.getElementById('videoFrame').src = newLink;
+    }
         function search() {
-            var textInput = document.getElementById('textInput').value.trim();
-            var formData = new FormData();
-            formData.append('textInput', textInput);
+        var textInput = document.getElementById('textInput').value.trim();
+        var formData = new FormData();
+        formData.append('textInput', textInput);
 
-            fetch('/search', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('videoFrame').src = data;
-                document.getElementById('videoContainer').style.display = 'block';
-            })
-            .catch(error => console.error('Error:', error));
+        fetch('/search', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            updateIframeSrc(data);
+            document.getElementById('videoContainer').style.display = 'block';
+        })
+        .catch(error => console.error('Error:', error));
 
-            return false; // Prevent default form submission
-        }
+        return false; // Prevent default form submission
+    }
     </script>
 </body>
 </html>

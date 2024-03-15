@@ -13,28 +13,21 @@ driver = webdriver.Chrome(options=options)
 
 
 def get_new_link_from_redirect(redirect_url):
-    try:
-        driver.get(redirect_url)
-        new_link = driver.current_url
-        return new_link
-    except Exception as e:
-        print("An error occurred:", e)
-        return None
+    driver.get(redirect_url)
+    new_link = driver.current_url
+    print('aktueller neuere link ' + new_link)
+    return new_link
 
 
 def get_video_link(show_name, season, episode):
-    try:
-        link = f"http://186.2.175.5/serie/stream/{show_name}/staffel-{season}/episode-{episode}"
-        driver.get(link)
-        element = driver.find_element(By.CSS_SELECTOR,
-                                      '#wrapper > div.seriesContentBox > div.container.marginBottom > div:nth-child('
-                                      '5) > div.hosterSiteVideo > div.inSiteWebStream > div:nth-child(1) > iframe')
-        content_value = element.get_attribute('src')
-        return content_value
-    except Exception as e:
-        print("An error occurred:", e)
-        return None
-
+    link = f"http://186.2.175.5/serie/stream/{show_name}/staffel-{season}/episode-{episode}"
+    driver.get(link)
+    element = driver.find_element(By.CSS_SELECTOR,
+                                  '#wrapper > div.seriesContentBox > div.container.marginBottom > div:nth-child('
+                                  '5) > div.hosterSiteVideo > div.inSiteWebStream > div:nth-child(1) > iframe')
+    content_value = element.get_attribute('src')
+    print('content_value = ' + content_value)
+    return content_value
 
 @app.route('/')
 def index():
@@ -45,21 +38,10 @@ def index():
 def search():
     text_input = request.form['textInput'].replace(' ', '')
     show_name, season, episode = text_input.split(',')
-    video_link = None
 
-    try:
-        redirect_url = text_input  # Assuming text_input contains the redirect URL
-        new_url = get_new_link_from_redirect(redirect_url)
-
-        if new_url:
-            video_link = new_url
-        else:
-            video_link = get_video_link(show_name, season, episode)
-    except Exception as e:
-        print("An error occurred:", e)
-
-    return video_link or "Error: Video link not found"
-
+    redirect_url = get_video_link(show_name, season, episode)
+    new_url = get_new_link_from_redirect(redirect_url)
+    return new_url
 
 if __name__ == '__main__':
     app.run(debug=True)
