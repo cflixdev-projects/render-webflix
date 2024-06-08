@@ -119,7 +119,15 @@ input {
     padding-left: 15px;
     width: 100%;
     transition: 0.3s all;
-    caret-color: rgb(255, 255, 255);
+    caret-color: rgb(23, 228, 255);
+    transition: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #09d6e0; /* Ensure text remains transparent */
+
 }
 
 .wrapperSecond button {
@@ -190,8 +198,8 @@ input {
 
   @media screen and (max-width: 365px) {
     #videoFrame {
-      height: 180px;
-      width: 250px;
+      height: 200px;
+      width: 290px;
     }
     .wrapper {
         padding: 20px 5px;
