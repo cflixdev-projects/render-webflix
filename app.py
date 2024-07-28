@@ -5,6 +5,7 @@ from selenium import webdriver
 
 app = Flask(__name__)
 
+
 # Initialize the WebDriver instance outside of the Flask application context
 options = Options()
 options.add_argument("--headless")

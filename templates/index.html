@@ -282,6 +282,7 @@ function search() {
     var formData = new FormData();
     formData.append('textInput', textInput);
 
+
     fetch('/search', {
         method: 'POST',
         body: formData
