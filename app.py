@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, jsonify
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 app = Flask(__name__)
@@ -50,6 +50,7 @@ def get_video_link(driver, show_name, season, episode):
 def get_movie_link(driver, show_name):
     try:
         link = f"https://cinemathek.net/filme/{show_name}"
+        logging.debug('Accessing movie link: %s', link)
         driver.get(link)
         iframe_element = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'iframe.metaframe'))
@@ -72,8 +73,12 @@ def search():
         text_input = request.form['textInput'].replace(' ', '')
 
         if switch_value == 'Shows':
-            show_name, season, episode = text_input.split(',')
-            redirect_url = get_video_link(driver, show_name, season, episode)
+            try:
+                show_name, season, episode = text_input.split(',')
+                redirect_url = get_video_link(driver, show_name, season, episode)
+            except ValueError:
+                logging.error('Input format error for shows: expected show_name,season,episode')
+                return jsonify({"error": "Invalid input format for shows. Expected format: show_name,season,episode"}), 400
         elif switch_value == 'Movies':
             show_name = text_input.strip()
             logging.debug('Show name: %s', show_name)
@@ -86,8 +91,10 @@ def search():
             if new_url:
                 return new_url
             else:
+                logging.error('Failed to retrieve new URL from redirect')
                 return jsonify({"error": "Failed to retrieve new URL from redirect"}), 500
         else:
+            logging.error('Failed to retrieve redirect URL')
             return jsonify({"error": "Failed to retrieve redirect URL"}), 500
     except Exception as e:
         logging.error('Error in search route: %s', e)

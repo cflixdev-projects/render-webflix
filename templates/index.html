@@ -297,7 +297,7 @@ display: flex;
     </div>
 
     <script>
-         let switchValue = 'Shows';
+         var switchValue = 'Shows';
 
         function switchMS() {
             var btnSwitch = document.getElementById('switch');
@@ -315,11 +315,11 @@ display: flex;
             if (newLink.trim() !== "") {
                 videoFrame.src = newLink;
                 document.getElementById('videoContainer').style.display = 'block';
-                videoFrame.style.display = 'block';
+                videoFrame.style.display = 'block'; // Show the video frame
             } else {
                 videoFrame.src = "";
                 document.getElementById('videoContainer').style.display = 'none';
-                videoFrame.style.display = 'none';
+                videoFrame.style.display = 'none'; // Hide the video frame
             }
         }
 
@@ -327,7 +327,7 @@ display: flex;
             var textInput = document.getElementById('textInput').value;
             var formData = new FormData();
             formData.append('textInput', textInput);
-            formData.append('switchValue', switchValue); // Include the switch value
+            formData.append('switchValue', switchValue);
 
             fetch('/search', {
                 method: 'POST',
