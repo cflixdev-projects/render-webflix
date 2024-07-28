@@ -25,6 +25,7 @@ except Exception as e:
 
 def get_new_link_from_redirect(driver, redirect_url):
     try:
+        logging.debug('Getting new link from redirect URL: %s', redirect_url)
         driver.get(redirect_url)
         new_link = driver.current_url
         logging.debug('New redirect link: %s', new_link)
@@ -36,6 +37,7 @@ def get_new_link_from_redirect(driver, redirect_url):
 def get_video_link(driver, show_name, season, episode):
     try:
         link = f"http://186.2.175.5/serie/stream/{show_name}/staffel-{season}/episode-{episode}"
+        logging.debug('Accessing video link: %s', link)
         driver.get(link)
         element = driver.find_element(By.CSS_SELECTOR,
                                       '#wrapper > div.seriesContentBox > div.container.marginBottom > div:nth-child('
@@ -71,6 +73,7 @@ def search():
     try:
         switch_value = request.form['switchValue']
         text_input = request.form['textInput'].replace(' ', '')
+        logging.debug('Switch value: %s, Text input: %s', switch_value, text_input)
 
         if switch_value == 'Shows':
             try:
@@ -81,7 +84,7 @@ def search():
                 return jsonify({"error": "Invalid input format for shows. Expected format: show_name,season,episode"}), 400
         elif switch_value == 'Movies':
             show_name = text_input.strip()
-            logging.debug('Show name: %s', show_name)
+            logging.debug('Movie name: %s', show_name)
             redirect_url = get_movie_link(driver, show_name)
         else:
             return jsonify({"error": "Invalid switch value"}), 400
@@ -101,4 +104,4 @@ def search():
         return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

@@ -297,7 +297,7 @@ display: flex;
     </div>
 
     <script>
-         var switchValue = 'Shows';
+          var switchValue = 'Shows';
 
         function switchMS() {
             var btnSwitch = document.getElementById('switch');
@@ -335,7 +335,12 @@ display: flex;
             })
             .then(response => response.text())
             .then(data => {
-                updateIframeSrc(data);
+                try {
+                    const jsonResponse = JSON.parse(data);
+                    console.error('Error:', jsonResponse);
+                } catch {
+                    updateIframeSrc(data);
+                }
             })
             .catch(error => console.error('Error:', error));
 
