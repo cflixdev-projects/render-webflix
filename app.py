@@ -53,6 +53,7 @@ def get_movie_link(driver, show_name):
 
 @app.route('/')
 def index():
+
     return render_template('index.html')
 
 @app.route('/search', methods=['POST'])
@@ -60,6 +61,7 @@ def search():
     try:
         switch_value = request.form['switchValue']
         text_input = request.form['textInput'].replace(' ', '')
+
 
         if switch_value == 'Shows':
             try:
