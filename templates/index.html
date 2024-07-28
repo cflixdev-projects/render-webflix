@@ -18,6 +18,28 @@ body {
   background-color: rgb(21, 21, 21);
 }
 
+#switch {
+border: none;
+background-color: white;
+font-family: "Poppins";
+cursor: pointer;
+width: fit-content;
+padding: 5px 10px;
+margin-bottom: 15px;
+border-radius: 10px;
+transition: all 0.6s;
+margin-left: 10px;
+}
+
+#switch:focus {
+        outline: none;
+}
+
+#switch:hover {
+transition: all 0.6s;
+transform: scale(1.1);
+  }
+
 .outerWrapper {
   height: 100vh;
   display: flex;
@@ -209,6 +231,9 @@ input:-webkit-autofill:focus {
     }
   }
 
+#searchForm {
+display: flex;
+}
   .info-txt {
     font-size:0.8rem;
   text-align:center
@@ -225,10 +250,11 @@ input:-webkit-autofill:focus {
             <h1 class="title">Webflix</h1>
             <form id="searchForm" onsubmit="return search()">
                 <div class="wrapperSecond">
-
                 <input id="textInput" name="textInput" placeholder="Name, Season, Episode">
-                <button class="btn" type="submit"><svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                <button class="btn" type="submit">
+                    <svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 296.999 296.999" xml:space="preserve">
+
                <g>
                    <g>
                        <g>
@@ -248,10 +274,17 @@ input:-webkit-autofill:focus {
                        </g>
                    </g>
                </g>
-               </svg></button>
+               </svg>
+
+                </button>
+
             </div>
 
+
+
+                <button id="switch" onclick="switchMS()">Shows</button>
             </form>
+
             <div id="videoContainer">
                 <iframe id="videoFrame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
             </div>
@@ -264,38 +297,50 @@ input:-webkit-autofill:focus {
     </div>
 
     <script>
-function updateIframeSrc(newLink) {
-    var videoFrame = document.getElementById('videoFrame');
-    if (newLink.trim() !== "") {
-        videoFrame.src = newLink;
-        document.getElementById('videoContainer').style.display = 'block';
-        videoFrame.style.display = 'block'; // Show the video frame
-    } else {
-        videoFrame.src = "";
-        document.getElementById('videoContainer').style.display = 'none';
-        videoFrame.style.display = 'none'; // Hide the video frame
-    }
-}
+         let switchValue = 'Shows';
 
-function search() {
-    var textInput = document.getElementById('textInput').value.trim();
-    var formData = new FormData();
-    formData.append('textInput', textInput);
+        function switchMS() {
+            var btnSwitch = document.getElementById('switch');
+            if (btnSwitch.innerHTML === "Shows") {
+                btnSwitch.innerHTML = "Movies";
+                switchValue = 'Movies';
+            } else {
+                btnSwitch.innerHTML = "Shows";
+                switchValue = 'Shows';
+            }
+        }
 
+        function updateIframeSrc(newLink) {
+            var videoFrame = document.getElementById('videoFrame');
+            if (newLink.trim() !== "") {
+                videoFrame.src = newLink;
+                document.getElementById('videoContainer').style.display = 'block';
+                videoFrame.style.display = 'block';
+            } else {
+                videoFrame.src = "";
+                document.getElementById('videoContainer').style.display = 'none';
+                videoFrame.style.display = 'none';
+            }
+        }
 
-    fetch('/search', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        updateIframeSrc(data);
-    })
-    .catch(error => console.error('Error:', error));
+        function search() {
+            var textInput = document.getElementById('textInput').value;
+            var formData = new FormData();
+            formData.append('textInput', textInput);
+            formData.append('switchValue', switchValue); // Include the switch value
 
-    return false; // Prevent default form submission
-}
+            fetch('/search', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                updateIframeSrc(data);
+            })
+            .catch(error => console.error('Error:', error));
 
+            return false; // Prevent default form submission
+        }
     </script>
 </body>
 </html>
