@@ -297,57 +297,37 @@ display: flex;
     </div>
 
     <script>
-         /*
-         var switchValue = 'Shows';
-
-        function switchMS() {
-            var btnSwitch = document.getElementById('switch');
-            if (btnSwitch.innerHTML === "Shows") {
-                btnSwitch.innerHTML = "Movies";
-                switchValue = 'Movies';
-            } else {
-                btnSwitch.innerHTML = "Shows";
-                switchValue = 'Shows';
-            }
-        }
-*/
         function updateIframeSrc(newLink) {
-            var videoFrame = document.getElementById('videoFrame');
-            if (newLink.trim() !== "") {
-                videoFrame.src = newLink;
-                document.getElementById('videoContainer').style.display = 'block';
-                videoFrame.style.display = 'block'; // Show the video frame
-            } else {
-                videoFrame.src = "";
-                document.getElementById('videoContainer').style.display = 'none';
-                videoFrame.style.display = 'none'; // Hide the video frame
-            }
-        }
+    var videoFrame = document.getElementById('videoFrame');
+    if (newLink.trim() !== "") {
+        videoFrame.src = newLink;
+        document.getElementById('videoContainer').style.display = 'block';
+        videoFrame.style.display = 'block'; // Show the video frame
+    } else {
+        videoFrame.src = "";
+        document.getElementById('videoContainer').style.display = 'none';
+        videoFrame.style.display = 'none'; // Hide the video frame
+    }
+}
 
-        function search() {
-            var textInput = document.getElementById('textInput').value.trim();
-            var formData = new FormData();
-            formData.append('textInput', textInput);
-<!--            formData.append('switchValue', switchValue);-->
+function search() {
+    var textInput = document.getElementById('textInput').value
+    var formData = new FormData();
+    formData.append('textInput', textInput);
 
-            fetch('/search', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                try {
-                    const jsonResponse = JSON.parse(data);
-                    console.error('Error:', jsonResponse);
-                } catch {
-                    updateIframeSrc(data);
-                }
-            })
-            .catch(error => console.error('Error:', error));
 
-            return false; // Prevent default form submission
-        }
+    fetch('/search', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        updateIframeSrc(data);
+    })
+    .catch(error => console.error('Error:', error));
 
+    return false; // Prevent default form submission
+}
 
     </script>
 </body>
