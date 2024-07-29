@@ -8,6 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>WebFlix</title>
 </head>
+
+
 <style>
 * {
   margin: 0;
@@ -28,7 +30,7 @@ padding: 5px 10px;
 margin-bottom: 15px;
 border-radius: 10px;
 transition: all 0.6s;
-margin-left: 10px;
+
 }
 
 #switch:focus {
@@ -231,9 +233,6 @@ input:-webkit-autofill:focus {
     }
   }
 
-#searchForm {
-display: flex;
-}
   .info-txt {
     font-size:0.8rem;
   text-align:center
@@ -247,10 +246,12 @@ display: flex;
 <body>
     <div class="outerWrapper">
         <div class="wrapper">
-            <h1 class="title">Webflix</h1>
+
+
+            <h1 class="title">MovieFlix</h1>
             <form id="searchForm" onsubmit="return search()">
                 <div class="wrapperSecond">
-                <input id="textInput" name="textInput" placeholder="Name, Season, Episode">
+                <input id="textInput" name="textInput" placeholder="movieName">
                 <button class="btn" type="submit">
                     <svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 296.999 296.999" xml:space="preserve">
@@ -282,7 +283,6 @@ display: flex;
 
 
 
-<!--                <button id="switch" onclick="switchMS()">Shows</button>-->
             </form>
 
             <div id="videoContainer">
@@ -297,7 +297,7 @@ display: flex;
     </div>
 
     <script>
-        function updateIframeSrc(newLink) {
+function updateIframeSrc(newLink) {
     var videoFrame = document.getElementById('videoFrame');
     if (newLink.trim() !== "") {
         videoFrame.src = newLink;
