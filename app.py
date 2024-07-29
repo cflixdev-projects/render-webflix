@@ -69,7 +69,6 @@ def index():
 
 @app.route('/search', methods=['POST'])
 def search():
-    try:
         switch_value = request.form['switchValue']
         text_input = request.form['textInput'].replace(' ', '')
         show_name = text_input.strip()
@@ -107,6 +106,7 @@ def search():
     except Exception as e:
         return jsonify({"error": "Internal server error"}), 500
 '''
+
 if __name__ == '__main__':
     app.run(debug=True)
 
