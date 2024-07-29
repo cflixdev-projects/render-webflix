@@ -324,7 +324,7 @@ display: flex;
         }
 
         function search() {
-            var textInput = document.getElementById('textInput').value;
+            var textInput = document.getElementById('textInput').value.trim();
             var formData = new FormData();
             formData.append('textInput', textInput);
             formData.append('switchValue', switchValue);
@@ -346,6 +346,7 @@ display: flex;
 
             return false; // Prevent default form submission
         }
+
 
     </script>
 </body>
