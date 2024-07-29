@@ -33,17 +33,14 @@ def get_new_link_from_redirect(redirect_url):
 
 
 def get_show_link(driver, show_name, season, episode):
-    try:
-        link = f"http://186.2.175.5/serie/stream/{show_name}/staffel-{season}/episode-{episode}"
-        driver.get(link)
-        element = driver.find_element(By.CSS_SELECTOR,
-                                      '#wrapper > div.seriesContentBox > div.container.marginBottom > div:nth-child('
-                                      '5) > div.hosterSiteVideo > div.inSiteWebStream > div:nth-child(1) > iframe')
-        content_value = element.get_attribute('src')
-        return content_value
-    except Exception as e:
-        return None
-
+    link = f"http://186.2.175.5/serie/stream/{show_name}/staffel-{season}/episode-{episode}"
+    driver.get(link)
+    element = driver.find_element(By.CSS_SELECTOR,
+                                  '#wrapper > div.seriesContentBox > div.container.marginBottom > div:nth-child('
+                                  '5) > div.hosterSiteVideo > div.inSiteWebStream > div:nth-child(1) > iframe')
+    content_value = element.get_attribute('src')
+    print('content_value = ' + content_value)
+    return content_value
 
 def get_movie_link(show_name):
     driver = create_driver()
