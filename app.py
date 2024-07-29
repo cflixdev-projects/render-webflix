@@ -69,17 +69,17 @@ def index():
 
 @app.route('/search', methods=['POST'])
 def search():
-        switch_value = request.form['switchValue']
+        # switch_value = request.form['switchValue']
         text_input = request.form['textInput'].replace(' ', '')
         show_name = text_input.strip()
 
-        if switch_value == 'Movies':
-            redirect_url = get_video_link(show_name)
-            if redirect_url:
-                new_url = get_new_link_from_redirect(redirect_url)
-                return new_url
-            else:
-                return "Video Link not found"
+        # if switch_value == 'Movies':
+        redirect_url = get_video_link(show_name)
+        if redirect_url:
+            new_url = get_new_link_from_redirect(redirect_url)
+            return new_url
+        else:
+            return "Video Link not found"
 
 
         '''if switch_value == 'Shows':

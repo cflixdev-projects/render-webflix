@@ -282,7 +282,7 @@ display: flex;
 
 
 
-                <button id="switch" onclick="switchMS()">Shows</button>
+<!--                <button id="switch" onclick="switchMS()">Shows</button>-->
             </form>
 
             <div id="videoContainer">
@@ -297,7 +297,8 @@ display: flex;
     </div>
 
     <script>
-          var switchValue = 'Shows';
+         /*
+         var switchValue = 'Shows';
 
         function switchMS() {
             var btnSwitch = document.getElementById('switch');
@@ -309,7 +310,7 @@ display: flex;
                 switchValue = 'Shows';
             }
         }
-
+*/
         function updateIframeSrc(newLink) {
             var videoFrame = document.getElementById('videoFrame');
             if (newLink.trim() !== "") {
@@ -327,7 +328,7 @@ display: flex;
             var textInput = document.getElementById('textInput').value.trim();
             var formData = new FormData();
             formData.append('textInput', textInput);
-            formData.append('switchValue', switchValue);
+<!--            formData.append('switchValue', switchValue);-->
 
             fetch('/search', {
                 method: 'POST',
