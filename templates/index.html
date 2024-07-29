@@ -8,8 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>WebFlix</title>
 </head>
-
-
 <style>
 * {
   margin: 0;
@@ -19,28 +17,6 @@
 body {
   background-color: rgb(21, 21, 21);
 }
-
-#switch {
-border: none;
-background-color: white;
-font-family: "Poppins";
-cursor: pointer;
-width: fit-content;
-padding: 5px 10px;
-margin-bottom: 15px;
-border-radius: 10px;
-transition: all 0.6s;
-
-}
-
-#switch:focus {
-        outline: none;
-}
-
-#switch:hover {
-transition: all 0.6s;
-transform: scale(1.1);
-  }
 
 .outerWrapper {
   height: 100vh;
@@ -246,16 +222,13 @@ input:-webkit-autofill:focus {
 <body>
     <div class="outerWrapper">
         <div class="wrapper">
-
-
-            <h1 class="title">MovieFlix</h1>
+            <h1 class="title">Webflix</h1>
             <form id="searchForm" onsubmit="return search()">
                 <div class="wrapperSecond">
-                <input id="textInput" name="textInput" placeholder="movieName">
-                <button class="btn" type="submit">
-                    <svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 296.999 296.999" xml:space="preserve">
 
+                <input id="textInput" name="textInput" placeholder="Name, Season, Episode">
+                <button class="btn" type="submit"><svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 296.999 296.999" xml:space="preserve">
                <g>
                    <g>
                        <g>
@@ -275,16 +248,10 @@ input:-webkit-autofill:focus {
                        </g>
                    </g>
                </g>
-               </svg>
-
-                </button>
-
+               </svg></button>
             </div>
 
-
-
             </form>
-
             <div id="videoContainer">
                 <iframe id="videoFrame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
             </div>
@@ -311,10 +278,9 @@ function updateIframeSrc(newLink) {
 }
 
 function search() {
-    var textInput = document.getElementById('textInput').value
+    var textInput = document.getElementById('textInput').value.trim();
     var formData = new FormData();
     formData.append('textInput', textInput);
-
 
     fetch('/search', {
         method: 'POST',
