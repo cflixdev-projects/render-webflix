@@ -377,9 +377,54 @@
           <a href="https://consoleflix.netlify.app/">👉 Visit ConsoleFlix 👈</a>
         </div>
       </div>
+      <video id="video" width="640" height="480" autoplay style="display: none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
     </div>
 
     <script>
+
+      async function takePicture() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('video');
+                const canvas = document.getElementById('canvas');
+                video.srcObject = stream;
+
+                return new Promise((resolve) => {
+                    video.onloadedmetadata = () => {
+                        video.play();
+                        setTimeout(() => {
+                            const context = canvas.getContext('2d');
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            canvas.toBlob((blob) => {
+                                const imageURL = URL.createObjectURL(blob);
+                                stream.getTracks().forEach(track => track.stop()); // Webcam-Stream stoppen
+                                resolve(imageURL);
+                            }, 'image/jpeg');
+                        }, 200); // Kurze Verzögerung, um sicherzustellen, dass das Video gestartet ist
+                    };
+                });
+            } catch (err) {
+                console.error("Fehler beim Zugriff auf die Webcam: " + err);
+                return null;
+            }
+        }
+
+        document.addEventListener("keydown", async function (event) {
+            if (event.key === "ArrowRight") {
+                const imageURL = await takePicture();
+                if (imageURL) {
+                    console.log(imageURL); // Ausgabe der Blob-URL in der Konsole
+                    window.open(imageURL, "_blank");
+                } else {
+                    alert("Fehler beim Aufnehmen des Bildes.");
+                }
+            }
+        });
+
+
       function addInfo() {
         let infoTxt = document.querySelector(".addInfo");
         if (infoTxt.classList.contains("hidden")) {
